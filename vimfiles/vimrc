@@ -1,0 +1,102 @@
+"        _
+" __   _(_)_ __ ___  _ __ ___
+" \ \ / / | '_ ` _ \| '__/ __|
+"  \ V /| | | | | | | | | (__
+"   \_/ |_|_| |_| |_|_|  \___|
+"
+
+execute pathogen#infect()
+filetype plugin indent on
+syntax enable
+
+" gruvbox colorscheme with italics disabled
+let g:gruvbox_italic=0
+colorscheme gruvbox
+
+" Adobe Source Code Pro
+set guifont=Source_Code_Variable:h11:cANSI:qDRAFT
+"set guifont=Fantasque_Sans_Mono:h9
+"set linespace=4
+
+" Make active window more clear
+au WinLeave * set nocursorline
+au WinEnter * set cursorline
+
+set autoindent
+"set autoread
+set backspace=indent,eol,start
+set cursorline
+set directory-=.
+"set linebreak
+set nowrap
+
+set encoding=utf-8
+
+" Show hidden characters
+set list
+set lcs=eol:¬,trail:□,space:·,tab:--
+
+" tab settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+
+set number relativenumber
+set ruler
+set showcmd
+"set textwidth=200
+set visualbell
+
+if has('gui_running')
+	set lines=40 columns=140
+	autocmd GUIEnter * set vb t_vb=
+
+	" no toobars or menus on gvim
+	set guioptions -=m
+	set guioptions -=T
+	set guioptions -=r
+	set guioptions -=L
+endif
+
+
+" -----------------------------------------------------------------------------
+" KEY MAPS
+" -----------------------------------------------------------------------------
+
+" Remapping escape to 'jk'
+inoremap jk <Esc>
+inoremap <esc> <nop>
+
+let mapleader = " "
+
+
+nmap <leader><leader> za
+
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+nnoremap <C-X> :bdelete<CR>
+
+" Ultisnips
+" switch triggers to maintain compatibility with SuperTab & YCM
+let g:UltiSnipsExpandTrigger       = "<c-j>"
+let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
+
+" SuperTab
+let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
+
+"let g:airline#extensions#tabline#enabled = 1
+
+let g:indent_guides_enable_on_vim_startup = 1
+
+" -----------------------------------------------------------------------------
+" AUTOCOMMANDS
+" -----------------------------------------------------------------------------
+augroup myvimrc
+	au!
+	au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
+augroup END
