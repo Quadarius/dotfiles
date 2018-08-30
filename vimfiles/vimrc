@@ -27,7 +27,6 @@ set autoindent
 set backspace=indent,eol,start
 set cursorline
 set directory-=.
-"set linebreak
 set nowrap
 
 set encoding=utf-8
@@ -42,7 +41,7 @@ set softtabstop=4
 set shiftwidth=4
 set noexpandtab
 
-set number relativenumber
+set number
 set ruler
 set showcmd
 "set textwidth=200
@@ -59,6 +58,12 @@ if has('gui_running')
 	set guioptions -=L
 endif
 
+if has('title') && (has('gui_running') || &title)
+	set titlestring=
+	set titlestring+=%h%m%r%w                                         " flags
+	set titlestring+=\ [DIRECTORY:\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}]\  " working directory
+	set titlestring+=\[FILE:\ %f]                                              " file name
+endif
 
 " -----------------------------------------------------------------------------
 " KEY MAPS
@@ -69,7 +74,6 @@ inoremap jk <Esc>
 inoremap <esc> <nop>
 
 let mapleader = " "
-
 
 nmap <leader><leader> za
 
@@ -93,6 +97,9 @@ let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc
 
 let g:indent_guides_enable_on_vim_startup = 1
 
+set foldenable
+let php_folding=1
+set foldmethod=indent
 " -----------------------------------------------------------------------------
 " AUTOCOMMANDS
 " -----------------------------------------------------------------------------
