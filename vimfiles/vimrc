@@ -1,51 +1,119 @@
-"        _
-" __   _(_)_ __ ___  _ __ ___
-" \ \ / / | '_ ` _ \| '__/ __|
-"  \ V /| | | | | | | | | (__
-"   \_/ |_|_| |_| |_|_|  \___|
-"
+if &compatible
+	set nocompatible
+endif
 
-execute pathogen#infect()
+
+let g:python3_host_prog='C:\Users\qmoore\AppData\Local\Programs\Python\Python37-32\python.exe'
+let $SHA='C:\www\docs\sha\wp-content\themes\sha-theme'
+
+set runtimepath+=C:\Users\qmoore\vimfiles\dein\dein.vim
+
+if dein#load_state('C:\Users\qmoore\vimfiles\dein')
+	call dein#begin('C:\Users\qmoore\vimfiles\dein')
+
+	call dein#add('Shougo/dein.vim')
+	call dein#add('vim-airline/vim-airline')
+	call dein#add('vim-airline/vim-airline-themes')
+	call dein#add('morhetz/gruvbox')
+	call dein#add('justinmk/vim-dirvish')
+	call dein#add('nathanaelkane/vim-indent-guides')
+	call dein#add('w0rp/ale')
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('othree/html5.vim')
+	call dein#add('kristijanhusak/deoplete-phpactor')
+	call dein#add('mattn/emmet-vim')
+
+	call dein#end()
+	call dein#save_state()
+endif
+
 filetype plugin indent on
 syntax enable
 
-" gruvbox colorscheme with italics disabled
-let g:gruvbox_italic=0
+if dein#check_install()
+	call dein#install()
+endif
+
+call plug#begin()
+
+	if has('nvim')
+		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+	else
+		Plug 'Shougo/deoplete.nvim'
+		Plug 'roxma/nvim-yarp'
+		Plug 'roxma/vim-hug-neovim-rpc'
+	endif
+
+	if executable('composer')
+		Plug 'phpactor/phpactor', {
+				\ 'do': 'composer install',
+				\ 'for': 'php',
+				\ 'dir': $HOME . '/.phpactor',
+				\ }
+	endif
+call plug#end()
+
 colorscheme gruvbox
-
-" Adobe Source Code Pro
-set guifont=Source_Code_Variable:h11:cANSI:qDRAFT
-"set guifont=Fantasque_Sans_Mono:h9
-"set linespace=4
-
-" Make active window more clear
-au WinLeave * set nocursorline
-au WinEnter * set cursorline
-
-set autoindent
-"set autoread
-set backspace=indent,eol,start
+set background=dark
+set number
+set guifont=Source_Code_Variable:h11
 set cursorline
-set directory-=.
 set nowrap
-
 set encoding=utf-8
-
-" Show hidden characters
 set list
 set lcs=eol:¬,trail:□,space:·,tab:--
-
-" tab settings
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set noexpandtab
-
-set number
 set ruler
 set showcmd
-"set textwidth=200
-set visualbell
+
+inoremap jk <esc>
+let mapleader = " "
+
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+nnoremap <C-X> :bdelete<CR>
+
+let g:deoplete#enable_at_startup = 1
+
+let g:airline#extensions#tabline#enabled = 1
+
+let g:indent_guides_enable_on_vim_startup = 1
+
+" Include use statement
+nmap <Leader>u :call phpactor#UseAdd()<CR>
+
+" Invoke the context menu
+nmap <Leader>mm :call phpactor#ContextMenu()<CR>
+
+" Invoke the navigation menu
+nmap <Leader>nn :call phpactor#Navigate()<CR>
+
+" Goto definition of class or class member under the cursor
+nmap <Leader>o :call phpactor#GotoDefinition()<CR>
+
+" Transform the classes in the current file
+nmap <Leader>tt :call phpactor#Transform()<CR>
+
+" Generate a new class (replacing the current file)
+nmap <Leader>cc :call phpactor#ClassNew()<CR>
+
+" Extract expression (normal mode)
+nmap <silent><Leader>ee :call phpactor#ExtractExpression(v:false)<CR>
+
+" Extract expression from selection
+vmap <silent><Leader>ee :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+
+" Extract method from selection
+vmap <silent><Leader>em :<C-U>call phpactor#ExtractMethod()<CR>
+
+if has('nvim')
+	cd ~
+	set lines=40 columns=140
+endif
+
 
 if has('gui_running')
 	set lines=40 columns=140
@@ -58,48 +126,7 @@ if has('gui_running')
 	set guioptions -=L
 endif
 
-if has('title') && (has('gui_running') || &title)
-	set titlestring=
-	set titlestring+=%h%m%r%w                                         " flags
-	set titlestring+=\ [DIRECTORY:\ %{substitute(getcwd(),\ $HOME,\ '~',\ '')}]\  " working directory
-	set titlestring+=\[FILE:\ %f]                                              " file name
-endif
 
-" -----------------------------------------------------------------------------
-" KEY MAPS
-" -----------------------------------------------------------------------------
-
-" Remapping escape to 'jk'
-inoremap jk <Esc>
-inoremap <esc> <nop>
-
-let mapleader = " "
-
-nmap <leader><leader> za
-
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
-nnoremap <C-X> :bdelete<CR>
-
-" Ultisnips
-" switch triggers to maintain compatibility with SuperTab & YCM
-let g:UltiSnipsExpandTrigger       = "<c-j>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
-
-" SuperTab
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-let g:SuperTabContextDiscoverDiscovery = ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
-
-"let g:airline#extensions#tabline#enabled = 1
-
-let g:indent_guides_enable_on_vim_startup = 1
-
-set foldenable
-let php_folding=1
-set foldmethod=indent
 " -----------------------------------------------------------------------------
 " AUTOCOMMANDS
 " -----------------------------------------------------------------------------
