@@ -2,39 +2,26 @@ if &compatible
 	set nocompatible
 endif
 
-
 let g:python3_host_prog='C:\Users\qmoore\AppData\Local\Programs\Python\Python37-32\python.exe'
 let $SHA='C:\www\docs\sha\wp-content\themes\sha-theme'
-
-set runtimepath+=C:\Users\qmoore\vimfiles\dein\dein.vim
-
-if dein#load_state('C:\Users\qmoore\vimfiles\dein')
-	call dein#begin('C:\Users\qmoore\vimfiles\dein')
-
-	call dein#add('Shougo/dein.vim')
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('vim-airline/vim-airline-themes')
-	call dein#add('morhetz/gruvbox')
-	call dein#add('justinmk/vim-dirvish')
-	call dein#add('nathanaelkane/vim-indent-guides')
-	call dein#add('w0rp/ale')
-	call dein#add('airblade/vim-gitgutter')
-	call dein#add('othree/html5.vim')
-	call dein#add('kristijanhusak/deoplete-phpactor')
-	call dein#add('mattn/emmet-vim')
-
-	call dein#end()
-	call dein#save_state()
-endif
 
 filetype plugin indent on
 syntax enable
 
-if dein#check_install()
-	call dein#install()
-endif
-
 call plug#begin()
+
+	Plug 'Shougo/dein.vim'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'morhetz/gruvbox'
+	Plug 'justinmk/vim-dirvish'
+	Plug 'nathanaelkane/vim-indent-guides'
+	Plug 'w0rp/ale'
+	Plug 'airblade/vim-gitgutter'
+	Plug 'othree/html5.vim'
+	Plug 'kristijanhusak/deoplete-phpactor'
+	Plug 'mattn/emmet-vim'
+	Plug 'Shougo/denite.nvim'
 
 	if has('nvim')
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -134,3 +121,5 @@ augroup myvimrc
 	au!
 	au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
 augroup END
+
+autocmd FileType help noremap <buffer> q :q<cr>
