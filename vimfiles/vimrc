@@ -4,6 +4,7 @@ endif
 
 let g:python3_host_prog='C:\Users\qmoore\AppData\Local\Programs\Python\Python37-32\python.exe'
 let $SHA='C:\www\docs\sha\wp-content\themes\sha-theme'
+let $FZF_DEFAULT_COMMAND='rg --files -g "!{.git,node_modules,AppData,dotfiles}/*"'
 
 filetype plugin indent on
 syntax enable
@@ -80,7 +81,7 @@ map \ :Files<CR>
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
-nnoremap <C-w> :bdelete<CR>
+nnoremap <C-x> :bdelete<CR>
 
 nnoremap ; :
 
@@ -100,6 +101,7 @@ nnoremap <C-Q>     :q<cr>
 vnoremap <C-Q>     <esc>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
+
 
 let g:deoplete#enable_at_startup = 1
 
@@ -138,3 +140,4 @@ autocmd FileType help noremap <buffer> q :q<cr>
 " PLUGIN MAPPINGS
 " -----------------------------------------------------------------------------
 
+map <leader>f :Ag<cr>
