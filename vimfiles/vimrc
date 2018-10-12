@@ -11,27 +11,30 @@ syntax enable
 
 call plug#begin()
 
-	Plug 'Shougo/dein.vim'
+	"Plug 'Shougo/dein.vim'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'morhetz/gruvbox'
+
 	Plug 'justinmk/vim-dirvish'
 	Plug 'nathanaelkane/vim-indent-guides'
 	Plug 'airblade/vim-gitgutter'
 	Plug 'othree/html5.vim'
 	Plug 'mattn/emmet-vim'
 
+	Plug 'tpope/vim-surround'
+	Plug 'tpope/vim-repeat'
+
 	" FZF
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'junegunn/fzf.vim'
 
 	" CLOJURE {{{
-	Plug 'kovisoft/paredit', { 'for': 'clojure' }
 	Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 	Plug 'guns/vim-clojure-static'
 	Plug 'guns/vim-clojure-highlight'
 	Plug 'guns/vim-slamhound'
-	Plug 'venantius/vim-cljfmt'
+	"Plug 'venantius/vim-cljfmt'
 	" }}}
 
 	" LINTING
@@ -45,16 +48,6 @@ call plug#begin()
 		Plug 'roxma/vim-hug-neovim-rpc'
 	endif
 
-	" PHP {{{
-	Plug 'kristijanhusak/deoplete-phpactor'
-	if executable('composer')
-		Plug 'phpactor/phpactor', {
-				\ 'do': 'composer install',
-				\ 'for': 'php',
-				\ 'dir': $HOME . '/.phpactor',
-				\ }
-	endif
-	" }}}
 call plug#end()
 
 colorscheme gruvbox
@@ -73,17 +66,24 @@ set shiftwidth=4
 set noexpandtab
 set ruler
 set showcmd
+set ignorecase
 
 inoremap jk <esc>
 let mapleader = " "
 
-map \ :Files<CR>
+" open fuzzy finder
+nnoremap \ :Files<CR>
 
+" Switch buffers with Tab
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 nnoremap <C-x> :bdelete<CR>
 
+" Map : to ;
 nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
 
 " Open new line below and above current line
 nnoremap <leader>o o<esc>
@@ -140,4 +140,5 @@ autocmd FileType help noremap <buffer> q :q<cr>
 " PLUGIN MAPPINGS
 " -----------------------------------------------------------------------------
 
-map <leader>f :Ag<cr>
+nnoremap <leader>f :Ag<Space>
+nnoremap <space>- :Files <c-r>=fnameescape(expand('%:p:h'))<cr>/<cr>
