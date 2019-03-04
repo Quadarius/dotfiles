@@ -46,6 +46,7 @@ call plug#begin()
 	Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 	Plug 'scrooloose/nerdtree'
 	Plug 'OmniSharp/omnisharp-vim'
+	Plug 'dhruvasagar/vim-table-mode'
 
 	if has('nvim')
 		Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -143,6 +144,11 @@ if has('gui_running')
 endif
 
 
+" use system clipboard
+set clipboard=unnamed
+" hybrid numbers
+set number relativenumber
+
 " -----------------------------------------------------------------------------
 " AUTOCOMMANDS
 " -----------------------------------------------------------------------------
@@ -156,6 +162,13 @@ autocmd FileType typescript setlocal sw=2 sts=2 expandtab
 
 "autocmd StdinReadPre * let s:std_in=1
 "autocmd VimEnter * if argc() == 0 && !exists(“s:std_in”) | NERDTree | endif
+
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 " -----------------------------------------------------------------------------
 " PLUGIN MAPPINGS
 " -----------------------------------------------------------------------------
